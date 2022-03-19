@@ -20,7 +20,7 @@ router.post('/register', async(req, res) => {
   const errors = [];
   ValidateRegister(req.body, errors)
   if (errors.length > 0) {
-    console.log(req.body)
+
     res.render('login/register', { title: 'Register User', pathname: ['home', 'register'], errors: errors, fields: req.body })
   } else {
     const salt = await bcrypt.genSalt()
@@ -46,7 +46,7 @@ router.post('/register', async(req, res) => {
 router.post('/local',
   passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
-    console.log(req.user)
+
     res.redirect('/dashboard');
   });
 

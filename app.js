@@ -38,7 +38,7 @@ app.use(expressLayout)
 // Routes
 app.use('/', require('./controller/home/index'))
 app.use('/login', require('./controller/login/index'))
-app.use('/dashboard', require('./controller/logedin/index'))
+
 
 // connect to MongoDB
 ConnectDB();

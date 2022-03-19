@@ -8,8 +8,9 @@ passport.use(new LocalStrategy({ usernameField: 'email' },
     User.findOne({ email: email }, function(err, user) {
       if (err) { return done(err); }
       if (!user) { return done(null, false); }
-      bcrypt.compare(user.password, password, (err, isMatch) => {
-        if (err) return done(err, false)
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+
+        if (!isMatch) return done(err, false)
         return done(null, user);
       });
 
@@ -21,7 +22,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' },
 
 passport.serializeUser(function(user, cb) {
   process.nextTick(function() {
-    cb(null, { user: user });
+    cb(null, user);
   });
 });
 
