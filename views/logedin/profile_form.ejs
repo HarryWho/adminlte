@@ -1,0 +1,56 @@
+<form action="<%= action %>" method="post">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="box box-success">
+        <div class="box-header with-border">
+          <h3 class="box-title">Education</h3>
+        </div>
+        <div class="box-body">
+          <div class="form-group">
+            <label for="occupation">Occupation</label>
+            <input class="form-control input-sm" name="occupation" id="occupation" type="text" placeholder="Occupation" value="<%- typeof profile!='undefined'&& typeof profile.occupation!='' ? profile.occupation : '' %>">
+          </div>
+          <div class="form-group">
+            <label for="school">School</label>
+            <input class="form-control input-sm" name="school" id="school" type="text" placeholder="School" value="<%- typeof profile!='undefined' ? profile.school : '' %>">
+          </div>
+          <div class="form-group">
+            <label for="uni">Higher Education</label>
+            <input class="form-control input-sm" name="uni" id="uni" type="text" placeholder="Higher Education Campus" value="<%- typeof profile!='undefined' ? profile.uni : '' %>">
+          </div>
+          <div class="form-group">
+            <label for="certificates">Crertificates</label>
+            <input class="form-control input-sm" name="certificates" id="certificates" type="text" placeholder="Certificate, Comma seperated" value="<%- typeof profile!='undefined' ? profile.certificates : '' %>">
+          </div>
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input class="form-control input-sm" name="location" id="location" type="text" placeholder="Country, State" value="<%- typeof profile!='undefined' ? profile.location : '' %>">
+          </div>
+          <div class="form-group">
+            <label for="skills">Skills</label>
+            <input class="form-control input-sm" name="skills" id="skills" type="text" placeholder="Skills. Comma seperated" value="<%- typeof profile!='undefined' ? profile.skills : '' %>">
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Resume</h3>
+        </div>
+        <div class="box-body">
+          <div class="form-group">
+            <label for="cover">Resume</label>
+            <textarea name="cover" id="cover" cols="30" rows="10" class="form-control"><%- typeof profile!='undefined' ? profile.cover : '' %></textarea>
+          </div>
+          <input type="submit" value="Save" class="btn btn-success btn-sm">
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<script src="/plugins/ckeditor/ckeditor.js"></script>
+<script>
+  CKEDITOR.replace('cover')
+</script>

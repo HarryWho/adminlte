@@ -4,6 +4,8 @@ const passport = require('passport')
 const { ValidateRegister } = require('../../middleware/validate')
 const bcrypt = require('bcryptjs')
 const User = require('../../model/UserModel')
+const Settings = require('../../model/SettingModel');
+
 require('../../config/passportLocal')
 
 router.get('/', (req, res) => {
@@ -18,7 +20,8 @@ router.get('/register', (req, res) => {
 
 router.post('/register', async(req, res) => {
   const errors = [];
-  ValidateRegister(req.body, errors)
+  await ValidateRegister(req.body, errors)
+  console.log(errors)
   if (errors.length > 0) {
 
     res.render('login/register', { title: 'Register User', pathname: ['home', 'register'], errors: errors, fields: req.body })
@@ -33,7 +36,11 @@ router.post('/register', async(req, res) => {
     try {
       const user = new User(newUser)
       await user.save()
+      const setting = new Settings({})
+      await setting.save()
+      await User.findByIdAndUpdate({ _id: user._id }, { settings: setting._id })
       res.redirect('/login');
+
     } catch (error) {
       console.log(error)
       res.status(500).render('error/500', { title: 'Error', pathname: ['error'] })

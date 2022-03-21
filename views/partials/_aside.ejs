@@ -1,69 +1,284 @@
-<!-- Create the tabs -->
-<ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-  <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-  <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-</ul>
-<!-- Tab panes -->
-<div class="tab-content">
-  <!-- Home tab content -->
-  <div class="tab-pane active" id="control-sidebar-home-tab">
-    <h3 class="control-sidebar-heading">Recent Activity</h3>
-    <ul class="control-sidebar-menu">
-      <li>
-        <a href="javascript::;">
-          <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+<% let skins =['skin-blue','skin-black','skin-purple','skin-yellow','skin-red','skin-green', 'skin-blue-light', 'skin-black-light', 'skin-purple-light', 'skin-yellow-light','skin-red-light', 'skin-green-light'] %>
+  <!-- Create the tabs -->
+  <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+    <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+    <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+  </ul>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <!-- Home tab content -->
+    <div class="tab-pane active" id="control-sidebar-home-tab">
+      <h3 class="control-sidebar-heading">Recent Activity</h3>
+      <ul class="control-sidebar-menu">
+        <li>
+          <a href="javascript::;">
+            <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 
-          <div class="menu-info">
-            <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+            <div class="menu-info">
+              <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
 
-            <p>Will be 23 on April 24th</p>
-          </div>
-        </a>
-      </li>
-    </ul>
-    <!-- /.control-sidebar-menu -->
+              <p>Will be 23 on April 24th</p>
+            </div>
+          </a>
+        </li>
+      </ul>
+      <!-- /.control-sidebar-menu -->
 
-    <h3 class="control-sidebar-heading">Tasks Progress</h3>
-    <ul class="control-sidebar-menu">
-      <li>
-        <a href="javascript::;">
-          <h4 class="control-sidebar-subheading">
-            Custom Template Design
-            <span class="pull-right-container">
+      <h3 class="control-sidebar-heading">Tasks Progress</h3>
+      <ul class="control-sidebar-menu">
+        <li>
+          <a href="javascript::;">
+            <h4 class="control-sidebar-subheading">
+              Custom Template Design
+              <span class="pull-right-container">
               <span class="label label-danger pull-right">70%</span>
-            </span>
-          </h4>
+              </span>
+            </h4>
 
-          <div class="progress progress-xxs">
-            <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+            <div class="progress progress-xxs">
+              <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+            </div>
+          </a>
+        </li>
+      </ul>
+      <!-- /.control-sidebar-menu -->
+
+    </div>
+    <!-- /.tab-pane -->
+    <!-- Stats tab content -->
+    <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+    <!-- /.tab-pane -->
+    <!-- Settings tab content -->
+    <div class="tab-pane" id="control-sidebar-settings-tab" style="z-index:100">
+      <form method="post" id="settingsForm">
+        <h3 class="control-sidebar-heading">Layout Options</h3>
+        <div id="saveSkin"></div>
+        <div id="msg"></div>
+        <div class="form-group">
+          <div class="radio">
+            <label>
+            <input type="radio" name="layout" id="optionsRadios1" class="layout" value="fixed" <%- typeof user!='undefined'&&typeof user.settings!='undefined' ? user.settings.layout == 'fixed' ? 'checked' : '' : '' %>> Fixed Layout
+  </label>
           </div>
-        </a>
-      </li>
-    </ul>
-    <!-- /.control-sidebar-menu -->
+          <div class="radio">
+            <label>
+            <input type="radio" name="layout" id="optionsRadios2" class="layout" value="boxed" <%- typeof user!='undefined'&&typeof user.settings!='undefined' ? user.settings.layout == 'layout-boxed' ? 'checked' : '' : '' %>>
+              Boxed Layout
+          </label>
+          </div>
 
+        </div>
+
+        <div class="form-group">
+          <label for="toggle-sidebar" width="100%">
+            Toggle Sidebar 
+          </label>
+          <input type="checkbox" name="toggle-sidebar" id="toggle-sidebar" class="pull-right" <%- typeof user!='undefined' &&typeof user.settings!='undefined' ? user.settings.collapse=='sidebar-collapse' ? 'checked' : '' : ''%>>
+          <p>Toggle the left sidebar's state</p>
+        </div>
+        <div class="form-group">
+          <label for="expand" width="100%">
+            Sidebar expand on Hover 
+          </label>
+          <input type="checkbox" name="expand" id="expand" class="pull-right" <%- typeof user!='undefined' &&typeof user.settings!='undefined' ? user.settings.expand_on_hover=='sidebar-expanded-on-hover' ? 'checked' : '' : ''%>>
+          <p>Let the sidebar mini expand on hover.</p>
+        </div>
+        <div class="form-group">
+          <label for="toggle-right" width="100%">
+            Toggle Right Sidebar Slide
+          </label>
+          <input type="checkbox" name="toggle-right" id="toggle-right" class="pull-right" <%- typeof user!='undefined' &&typeof user.settings!='undefined' ? user.settings.toggle_right=='control-sidebar-open' ? 'checked' : '' : ''%>>
+          <p>Toggle between slide over content</p>
+        </div>
+        <div class="form-group">
+          <label for="control-background" width="100%">
+            Toggle Right Sidebar Skin
+          </label>
+          <input type="checkbox" name="control-background" id="control-background" class="pull-right" <%- typeof user!='undefined' &&typeof user.settings!='undefined' ? user.settings.control_sidebar=='control-sidebar-light' ? 'checked' : '' : ''%>>
+          <p>Toggle between light and Dark skins</p>
+        </div>
+        <div class="form-group">
+          <label for="skin-type" width="100%">
+            Skins
+          </label>
+          <select name="skin" id="skin" style="color:black;font-weight:600">
+      <% skins.forEach( s =>{ %>
+        <option value="<%= s %>" <%- typeof user!='undefined'&&typeof user.settings!='undefined' ? user.settings.skin == s ? 'selected': '' : ''%>><%=s%></option>
+      <% }) %>
+    </select>
+          <p>Toggle between slide over content</p>
+        </div>
+        <!-- /.form-group -->
+        <button type="button" id="submit" class="btn btn-success btn-sm" disabled=true>Save</button>
+
+      </form>
+      <!-- /.tab-pane -->
+    </div>
   </div>
-  <!-- /.tab-pane -->
-  <!-- Stats tab content -->
-  <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-  <!-- /.tab-pane -->
-  <!-- Settings tab content -->
-  <div class="tab-pane" id="control-sidebar-settings-tab">
-    <form method="post">
-      <h3 class="control-sidebar-heading">General Settings</h3>
+  <script>
+    const layout = document.querySelectorAll(".layout")
+    const form = document.getElementById('settingsForm')
+    const button = document.getElementById('submit')
+    const toggle_sidebar = document.getElementById('toggle-sidebar')
+    const expand = document.getElementById('expand')
+    const toggle_right = document.getElementById('toggle-right')
+    const body = document.body
+    const skin = document.getElementById('skin')
+    const control_background = document.getElementById('control-background')
+    const control_sidebar = document.querySelector('.control-sidebar');
+    let layoutVal = '';
+    let collapse = ''
+    let expandVal = ''
+    let rightVal = ''
+    let skinVal = ''
+    let controlVal = ''
+    control_background.addEventListener('change', (e) => {
+      button.disabled = false
+      if (control_background.checked) {
+        control_sidebar.classList.remove('control-sidebar-dark')
+        control_sidebar.classList.add('control-sidebar-light')
+      } else {
+        control_sidebar.classList.remove('control-sidebar-light')
+        control_sidebar.classList.add('control-sidebar-dark')
 
-      <div class="form-group">
-        <label class="control-sidebar-subheading">
-          Report panel usage
-          <input type="checkbox" class="pull-right" checked>
-        </label>
+      }
+    })
+    skin.addEventListener('change', e => {
+      button.disabled = false
+      body.classList.forEach(cl => {
+        if (cl.substring(0, 4) == 'skin') {
+          body.classList.remove(cl)
 
-        <p>
-          Some information about this general settings option
-        </p>
-      </div>
-      <!-- /.form-group -->
-    </form>
-  </div>
-  <!-- /.tab-pane -->
-</div>
+        }
+      })
+
+      body.classList.add(e.target.value)
+    })
+    toggle_sidebar.addEventListener('change', e => {
+      button.disabled = false
+      if (e.target.checked) {
+        body.classList.add('sidebar-collapse');
+      } else {
+        body.classList.remove('sidebar-collapse')
+      }
+    })
+    expand.addEventListener('change', e => {
+      button.disabled = false
+      if (e.target.checked) {
+        body.classList.add('sidebar-expanded-on-hover')
+
+      } else {
+        body.classList.remove('sidebar-expanded-on-hover')
+
+      }
+    })
+
+    layout.forEach(l => {
+      l.addEventListener('change', e => {
+        button.disabled = false
+        if (e.target.value == 'fixed') {
+          if (e.target.checked) {
+            body.classList.remove('layout-boxed')
+            body.classList.add('fixed')
+          }
+        } else {
+          if (e.target.checked) {
+            body.classList.remove('fixed')
+            body.classList.add('layout-boxed')
+          }
+        }
+      })
+    })
+    toggle_right.addEventListener('change', e => {
+      button.disabled = false
+      if (e.target.checked) {
+
+        body.classList.add('control-sidebar-open')
+      } else {
+
+        body.classList.remove('control-sidebar-open')
+      }
+    })
+    button.addEventListener('click', () => {
+      button.disabled = true;
+      switch (form.layout.value) {
+        case "fixed":
+          if (body.classList.contains('layout-boxed')) {
+            body.classList.remove('layout-boxed')
+          }
+          layoutVal = 'fixed'
+          body.classList.add('fixed')
+          break;
+        case 'boxed':
+          if (body.classList.contains('fixed')) {
+
+            body.classList.remove('fixed')
+          }
+          layoutVal = 'layout-boxed'
+          body.classList.add('layout-boxed')
+          break;
+      }
+      switch (toggle_sidebar.checked) {
+        case true:
+          collapse = 'sidebar-collapse'
+          break;
+        default:
+          collapse = '';
+      }
+      switch (expand.checked) {
+        case true:
+          expandVal = 'sidebar-expanded-on-hover'
+          break;
+        default:
+          expandVal = '';
+      }
+      switch (toggle_right.checked) {
+        case true:
+          rightVal = 'control-sidebar-open'
+          break;
+        default:
+          rightVal = '';
+      }
+      switch (control_background.checked) {
+        case true:
+          controlVal = 'control-sidebar-light'
+          break;
+        default:
+          controlVal = 'control-sidebar-dark';
+      }
+      skinVal = skin.value
+      let data = {
+        layout: `${layoutVal}`,
+        skin: `${skinVal}`,
+        collapse: `${collapse}`,
+        expand_on_hover: `${expandVal}`,
+        toggle_right: `${rightVal}`,
+        control_sidebar: `${controlVal}`
+      }
+      DoAjax(data, '/settings')
+    })
+
+    function DoAjax(data, action) {
+      $.ajax({
+        method: "POST",
+        url: action,
+        data: data,
+        success: function(result) {
+          if (result == 'Successfully Saved') {
+            $("#saveSkin").html("Saved!!")
+              .fadeOut("slow", function() {});
+            $("#msg").html(result).fadeToggle('slow', function() {
+              $("#msg").html(result)
+                .fadeOut('slow', function() {});
+            });
+          } else {
+            $("#msg").html('').fadeToggle('fast', function() {
+              $("#msg").html(result)
+                .fadeOut('slow', function() {});
+            });
+
+          }
+        }
+      });
+    }
+  </script>

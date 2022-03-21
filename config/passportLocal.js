@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs')
 
 passport.use(new LocalStrategy({ usernameField: 'email' },
   function(email, password, done) {
+    console.log(email, password)
     User.findOne({ email: email }, function(err, user) {
       if (err) { return done(err); }
       if (!user) { return done(null, false); }
@@ -14,7 +15,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' },
         return done(null, user);
       });
 
-    });
+    }).populate('settings');
   }
 ));
 

@@ -53,7 +53,7 @@ desired effect
 |---------------------------------------------------------|
 -->
 
-<body class="hold-transition skin-green sidebar-mini">
+<body class="hold-transition sidebar-mini <%- typeof user!='undefined'&&typeof user.settings!='undefined' ? `${user.settings.skin}`: 'skin-blue' %> <%- typeof user!='undefined'&&typeof user.settings!='undefined' ? `${user.settings.layout}`: '' %> <%- typeof user!='undefined'&&typeof user.settings!='undefined' ? `${user.settings.collapse}`: '' %> <%- typeof user!='undefined'&&typeof user.settings!='undefined' ? `${user.settings.expand_on_hover}`: '' %> <%- typeof user!='undefined'&&typeof user.settings!='undefined' ? `${user.settings.toggle_right}`: '' %>">
   <div class="wrapper">
 
     <!-- Main Header -->
@@ -114,8 +114,10 @@ desired effect
     </footer>
 
     <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
+    <aside class="control-sidebar <%- typeof user!='undefined'&& typeof user.settings!='undefined' ? `${user.settings.control_sidebar}` : 'control-sidebar-dark' %>">
+
       <%- include('../partials/_aside.ejs') %>
+
     </aside>
     <!-- /.control-sidebar -->
     <!-- Add the sidebar's background. This div must be placed
@@ -132,7 +134,9 @@ desired effect
   <script src="/bootstrap/js/bootstrap.min.js"></script>
   <!-- AdminLTE App -->
   <script src="/dist/js/app.min.js"></script>
+
   <%- script %>
+
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the

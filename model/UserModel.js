@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 const UserSchema = new mongoose.Schema({
+  googleId: String,
   displayName: {
     type: String,
     required: true
@@ -14,8 +15,8 @@ const UserSchema = new mongoose.Schema({
     default: '/dist/img/avatar.png'
   },
   password: {
-    type: String,
-    required: true
+    type: String
+
   },
   joined: {
     type: Date,
@@ -24,6 +25,14 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     default: 'basic'
+  },
+  profile: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Profile'
+  },
+  settings: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Settings'
   }
 
 })

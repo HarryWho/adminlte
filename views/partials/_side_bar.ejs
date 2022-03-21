@@ -29,18 +29,24 @@
     <ul class="sidebar-menu">
       <li class="header">HEADER</li>
       <!-- Optionally, you can add icons to the links -->
-      <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-      <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-      <li class="treeview">
-        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+      <li class="<%- pathname[1]=='dashboard'? 'active' : ''%>"><a href="/"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+      <!-- <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li> -->
+      <% if(typeof user!='undefined'){%>
+        <li class="treeview <%- pathname[1]=='profile'||pathname[1]=='edit profile' ? 'active' : ''%>">
+          <a href="#"><i class="fa fa-user-md"></i> <span>Profile</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
             </a>
-        <ul class="treeview-menu">
-          <li><a href="#">Link in level 2</a></li>
-          <li><a href="#">Link in level 2</a></li>
-        </ul>
-      </li>
+          <ul class="treeview-menu">
+            <li class="<%- pathname[1]=='profile'? 'active' : ''%>"><a href="/profile/<%- typeof user!='undefine' ? user._id : '' %> ">Profile</a></li>
+            <% if(typeof user.profile!='undefined'){%>
+              <li class="<%- pathname[1]=='edit profile'? 'active' : ''%>"><a href="/profile/edit/<%- typeof user!='undefine' ?  user.profile : '' %>">Edit Profile</a></li>
+              <%}else{%>
+                <li class="<%- pathname[1]=='edit profile'? 'active' : ''%>"><a href="/profile/new">Create Profile</a></li>
+                <%}%>
+          </ul>
+        </li>
+        <%}%>
     </ul>
     <!-- /.sidebar-menu -->

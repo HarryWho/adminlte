@@ -1,5 +1,6 @@
+const User = require('../model/UserModel')
 module.exports = {
-  ValidateRegister: function(body, errors) {
+  ValidateRegister: async function(body, errors) {
     //console.log(req.body)
     console.log(body)
     if (body.displayName == '' || body.email == '' || body.password == '' || body.password2 == '') {
@@ -7,6 +8,11 @@ module.exports = {
     }
     if (!isEmailValid(body.email)) {
       errors.push({ msg: "Not a valid email" })
+    }
+    const user = await User.find({ email: body.email })
+    console.log(user.length)
+    if (user.length > 0) {
+      errors.push({ msg: "email already registered" })
     }
     if (body.password.length < 6) {
       errors.push({ msg: "password must be at least 6 characters long" })

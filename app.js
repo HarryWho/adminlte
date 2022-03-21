@@ -5,12 +5,22 @@ const expressLayout = require('express-ejs-layouts')
 const passport = require('passport')
 const session = require('express-session')
 const MongoStore = require('connect-mongo');
+const methodOverride = require('method-override')
+
 const app = express()
+
+// setupfor the view engine
+app.set('view engine', 'ejs')
+app.use(expressLayout)
+app.set('layout', 'layouts/starter')
+app.set("layout extractScripts", true)
+app.set("layout extractStyles", true)
 
 // set static public folder
 app.use(express.static('public'))
 
 // body parser
+app.use(methodOverride('_method'))
 app.use(express.urlencoded({ extended: false }))
 
 // express-sessions
@@ -27,18 +37,14 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// setupfor the view engine
-app.set('view engine', 'ejs')
-app.set('layout', 'layouts/starter')
-app.set("layout extractScripts", true)
-app.set("layout extractStyles", true)
-app.use(expressLayout)
-
+const { ensureAuth, ensureGuest } = require('./middleware/auth')
 
 // Routes
 app.use('/', require('./controller/home/index'))
-app.use('/login', require('./controller/login/index'))
-
+app.use('/login', ensureGuest, require('./controller/login/index'))
+app.use('/auth', ensureGuest, require('./controller/login/auth'))
+app.use('/settings', ensureAuth, require('./controller/home/save'))
+app.use('/profile', ensureAuth, require('./controller/profile/profile'))
 
 // connect to MongoDB
 ConnectDB();

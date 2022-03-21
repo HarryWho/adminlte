@@ -1,0 +1,139 @@
+<div class="row">
+  <div class="col-md-3">
+
+    <!-- Profile Image -->
+    <div class="box box-primary">
+      <div class="box-body box-profile">
+        <img class="profile-user-img img-responsive img-circle" src="<%= profile.image %>" alt="User profile picture">
+
+        <h3 class="profile-username text-center">
+          <%= profile.displayName%>
+        </h3>
+
+        <p class="text-muted text-center">
+          <%- typeof profile.profile!='undefined' ? profile.profile.occupation : '' %>
+        </p>
+
+        <ul class="list-group list-group-unbordered">
+          <li class="list-group-item">
+            <b>Followers</b>
+            <a class="pull-right">
+              <%- typeof profile.profile!='undefined' ? profile.profile.followers : '' %>
+            </a>
+          </li>
+          <li class="list-group-item">
+            <b>Following</b>
+            <a class="pull-right">
+              <%- typeof profile.profile!='undefined' ? profile.profile.following : '' %>
+            </a>
+          </li>
+          <li class="list-group-item">
+            <b>Friends</b>
+            <a class="pull-right">
+              <%- typeof profile.profile!='undefined' ? profile.profile.friends : '' %>
+            </a>
+          </li>
+        </ul>
+        <% if(typeof user.profile!='undefined' && typeof user.profile!=profile.profile._id){%>
+          <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+          <%}%>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+
+  </div>
+  <!-- /.col -->
+  <div class="col-md-6">
+    <div class="box box-primary">
+      <div class="box-body box-profile">
+        <div class="post">
+          <div class="user-block">
+            <img class="img-circle img-bordered-sm" src="<%= profile.image %>" alt="user image">
+            <span class="username">
+                    <a href="#"><%= profile.displayName %></a>
+                    <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
+                  </span>
+            <span class="description">Resume</span>
+          </div>
+          <!-- /.user-block -->
+          <p>
+            <%- typeof profile.profile!='undefined' ? profile.profile.cover : '' %>
+          </p>
+
+        </div>
+      </div>
+    </div>
+    <!-- /.nav-tabs-custom -->
+  </div>
+  <!-- /.col -->
+  <div class="col-md-3">
+    <!-- About Me Box -->
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">About Me</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <% if(typeof profile.profile!='undefined' && profile.profile.occupation!=''){%>
+          <strong><i class="fa fa-industry margin-r-5"></i> Occupation</strong>
+          <p class="text-muted">
+            <%- typeof profile.profile!='undefined' ? profile.profile.occupation : '' %>
+          </p>
+          <hr>
+          <%}%>
+            <% if(typeof profile.profile!='undefined' && profile.profile.school!=''){%>
+              <strong><i class="fa fa-book margin-r-5"></i> School</strong>
+              <p class="text-muted">
+                <%- typeof profile.profile!='undefined' ? profile.profile.school : '' %>
+              </p>
+              <hr>
+              <%}%>
+                <% if(typeof profile.profile!='undefined' && profile.profile.uni!=''){%>
+                  <strong><i class="fa fa-institution margin-r-5"></i> Education</strong>
+                  <p class="text-muted">
+                    <%=profile.profile.uni %>
+                  </p>
+                  <hr>
+                  <%}%>
+                    <% if(typeof profile.profile!='undefined' && profile.profile.certificates.length>0){%>
+                      <strong><i class="fa fa-certificate margin-r-5"></i> Certificates</strong>
+                      <p class="text-muted">
+                        <%= profile.profile.certificates %>
+                      </p>
+                      <hr>
+                      <%}%>
+                        <% if(typeof profile.profile!='undefined' && profile.profile.location!=''){%>
+                          <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+                          <p class="text-muted">
+                            <%- typeof profile.profile!='undefined' ? profile.profile.location : '' %>
+                          </p>
+                          <hr>
+                          <%}%>
+                            <% if(typeof profile.profile!='undefined' && profile.profile.skills.length>0){%>
+                              <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
+                              <p>
+                                <% if(typeof profile.profile!='undefined'){  %>
+                                  <% profile.profile.skills.forEach(skill=>{ %>
+                                    <span class="label label-danger"><%= skill %></span>
+                                    <%}) %>
+                                      <%}%>
+                              </p>
+                              <hr>
+                              <%}%>
+      </div>
+      <!-- /.box-body -->
+      <% if(user._id == profile._id) { %>
+        <% if(typeof profile.profile=='undefined') {%>
+          <a href="/profile/new" class="btn btn-success btn-sm">Create Profile</a>
+          <%}else{%>
+            <a href="/profile/edit/<%=profile.profile._id%>" class="btn btn-success btn-sm">Edit</a>
+
+            <%}%>
+              <% } %>
+    </div>
+    <!-- /.box -->
+  </div>
+</div>
+<!-- /.row -->
