@@ -4,7 +4,7 @@ const User = require('../../model/UserModel')
 const Profile = require('../../model/ProfileModel')
 const { GetSelectedUserAndPopulateProfile } = require('../../middleware/DBFunctions')
 router.get('/new', (req, res) => {
-  res.render('logedin/profile_form', {
+  res.render('logedin/profile/profile_form', {
     title: 'Update User profile',
     user: req.user,
     pathname: ['home', 'update profile'],
@@ -14,7 +14,7 @@ router.get('/new', (req, res) => {
 
 router.get('/:userID', async(req, res) => {
   const userprofile = await User.findById(req.params.userID).populate('profile')
-  res.render('logedin/profile', {
+  res.render('logedin/profile/profile', {
     title: 'User Profile',
     user: req.user,
     pathname: ['home', 'profile'],
@@ -25,7 +25,7 @@ router.get('/:userID', async(req, res) => {
 router.get('/edit/:userID', async(req, res) => {
   const profile = await Profile.findById({ _id: req.user.profile })
 
-  res.render('logedin/profile_form', {
+  res.render('logedin/profile/profile_form', {
     pathname: ['home', 'edit profile'],
     user: req.user,
     profile: profile,
@@ -62,7 +62,7 @@ router.post('/', async(req, res) => {
     const profile = new Profile(newProfile)
     await profile.save()
     await User.findByIdAndUpdate({ _id: req.user._id }, { profile: profile._id })
-    req.user.profile._id = profile._id;
+    req.user.profile = profile._id;
     req.session.save(function(err) {
       req.session.reload(function(err) {
 
