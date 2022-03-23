@@ -21,7 +21,7 @@ router.get('/register', (req, res) => {
 router.post('/register', async(req, res) => {
   const errors = [];
   await ValidateRegister(req.body, errors)
-  console.log(errors)
+
   if (errors.length > 0) {
 
     res.render('login/register', { title: 'Register User', pathname: ['home', 'register'], errors: errors, fields: req.body })

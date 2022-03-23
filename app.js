@@ -22,8 +22,8 @@ app.use(express.static('public'))
 // body parser
 app.use(methodOverride('_method'))
 app.use(express.urlencoded({ extended: false }))
-
-// express-sessions
+app.use(express.json())
+  // express-sessions
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
@@ -37,6 +37,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+const { dateFormat, hasLiked } = require('./middleware/formats')
+  // various formats
+app.use((req, res, next) => {
+  res.locals.dateFormat = dateFormat
+  res.locals.hasLiked = hasLiked
+
+  next()
+})
+
 const { ensureAuth, ensureGuest } = require('./middleware/auth')
 
 // Routes
@@ -45,6 +54,7 @@ app.use('/login', ensureGuest, require('./controller/login/index'))
 app.use('/auth', ensureGuest, require('./controller/login/auth'))
 app.use('/settings', ensureAuth, require('./controller/home/save'))
 app.use('/profile', ensureAuth, require('./controller/profile/profile'))
+app.use('/blog', ensureAuth, require('./controller/blog/blog'))
 
 // connect to MongoDB
 ConnectDB();

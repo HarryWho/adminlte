@@ -52,8 +52,8 @@
     <div class="tab-pane" id="control-sidebar-settings-tab" style="z-index:100">
       <form method="post" id="settingsForm">
         <h3 class="control-sidebar-heading">Layout Options</h3>
-        <div id="saveSkin"></div>
-        <div id="msg"></div>
+
+        <div id="msg" style="color:green"></div>
         <div class="form-group">
           <div class="radio">
             <label>
@@ -199,8 +199,10 @@
         body.classList.remove('control-sidebar-open')
       }
     })
-    button.addEventListener('click', () => {
+    button.addEventListener('click', async() => {
       button.disabled = true;
+      $('#msg').text('')
+      $('#msg').fadeIn(10)
       switch (form.layout.value) {
         case "fixed":
           if (body.classList.contains('layout-boxed')) {
@@ -255,30 +257,27 @@
         toggle_right: `${rightVal}`,
         control_sidebar: `${controlVal}`
       }
-      DoAjax(data, '/settings')
+      const result = await DoAjax(data, '/settings', (result) => {
+        if (result == 'Settings saved successfully') {
+          $('#msg').text(result)
+          $('#msg').fadeOut(2000)
+
+        }
+      })
     })
 
-    function DoAjax(data, action) {
+    async function DoAjax(data, action, cb) {
+
       $.ajax({
         method: "POST",
         url: action,
         data: data,
-        success: function(result) {
-          if (result == 'Successfully Saved') {
-            $("#saveSkin").html("Saved!!")
-              .fadeOut("slow", function() {});
-            $("#msg").html(result).fadeToggle('slow', function() {
-              $("#msg").html(result)
-                .fadeOut('slow', function() {});
-            });
-          } else {
-            $("#msg").html('').fadeToggle('fast', function() {
-              $("#msg").html(result)
-                .fadeOut('slow', function() {});
-            });
+        success: await
+        function(result) {
 
-          }
+          return cb(result)
+
         }
-      });
+      })
     }
   </script>
