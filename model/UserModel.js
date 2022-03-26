@@ -33,7 +33,11 @@ const UserSchema = new mongoose.Schema({
   settings: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Settings'
-  }
+  },
+  notifications: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Notification'
+  }]
 
 })
 

@@ -14,6 +14,7 @@ router.get('/new', (req, res) => {
 
 router.get('/:userID', async(req, res) => {
   const userprofile = await User.findById(req.params.userID).populate('profile')
+
   res.render('logedin/profile/profile', {
     title: 'User Profile',
     user: req.user,
@@ -23,7 +24,7 @@ router.get('/:userID', async(req, res) => {
 })
 
 router.get('/edit/:userID', async(req, res) => {
-  const profile = await Profile.findById({ _id: req.user.profile })
+  const profile = await Profile.findById(req.user.profile)
 
   res.render('logedin/profile/profile_form', {
     pathname: ['home', 'edit profile'],
@@ -43,6 +44,7 @@ router.put('/:profileID', async(req, res) => {
     location: req.body.location,
     skills: req.body.skills.split(','),
     cover: req.body.cover
+
   }
   await Profile.findByIdAndUpdate(req.user.profile, newProfile)
   res.redirect(`/profile/${req.user._id}`)

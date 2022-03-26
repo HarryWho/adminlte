@@ -1,59 +1,67 @@
 <!-- Post -->
-<% blogs.forEach(blog=>{%>
-  <div class="post">
-    <div class="user-block">
-      <img class="img-circle img-bordered-sm" src="<%= blog.author.image %>" alt="user image">
-      <span class="username">
-                <a href="#"><%= blog.author.displayName %></a>
+<div class="row">
+  <% blogs.forEach(blog=>{%>
+    <div class="col-md-12">
+      <div id="blog-posts">
+        <div class="post" style="background:#fff; padding: 10px; margin-bottom: 10px">
+          <div class="user-block">
+            <!-- <img class="img-circle img-bordered-sm" src="<%= //blog.author.image %>" alt="user image"> -->
+            <span class="username">
+                <!-- <a href="/profile/<%= //blog.author._id %>"><%= //blog.author.displayName %></a> -->
+                <% if(blog.author._id == user._id){%>
                 <form action="/blog/<%=blog._id%>?_method=DELETE" method="post" id="delete">
                   <a href="javascript:{}" class="pull-right btn-box-tool" onclick="document.getElementById('delete').submit()" title="Delete" return false><i class="fa fa-times""></i></a>
                 </form>
                 <a href="/blog/edit/<%=blog._id%>" class="pull-right btn-box-tool" title="Edit"><i class="fa fa-edit"></i></a>
+                <%}%>
               </span>
-      <span class="description">Shared <%= blog.status %>ly - <%- dateFormat(blog.date, 'MMMM Do YYYY h:mm:ss a') %></span>
-    </div>
-    <!-- /.user-block -->
-    <p>
-      <%- blog.blog %>
-    </p>
-    <ul class="list-inline">
-      <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
-      <% hasLiked(blog.likes, user.displayName, (Liked, tooltips)=>{%>
-        <% if(Liked) {%>
-          <li><a href="javascript:{}" class="link-black text-sm" title="<%= tooltips %>" style="font-weight:bold !important;color:#23a8f5 !important;" onClick="DecrementLikes('<%=blog._id%>', '<%=user._id%>')" return false><i class="fa fa-thumbs-o-up margin-r-5"></i> Like (<span id="likes"><%=blog.likes.length%></span>)</li>
-      <%}else{%>
-        <li><a href="javascript:{}" class="link-black text-sm" title="<%= tooltips %>" onClick="IncrementLikes('<%=blog._id%>', '<%=user._id%>')" return false><i class="fa fa-thumbs-o-up margin-r-5"></i> Like (<span id="likes"><%=blog.likes.length%></span>)</a></li>
-          <%}})%>
+            <span class="description">Shared <%= blog.status %>ly - <%- dateFormat(blog.date, 'MMMM Do YYYY h:mm:ss a') %></span>
+          </div>
+          <!-- /.user-block -->
+          <h3>
+            <%=blog.title%>
+          </h3>
+          <p>
+            <%- truncate(blog.blog, 250) %>
+          </p>
+          <ul class="list-inline">
+            <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
+            <% hasLiked(blog.likes, user.displayName, (Liked, tooltips)=>{%>
+              <li><a href="javascript:{}" id="likedBtn" class="link-black text-sm <%- Liked==true?'liked': ''%>" title="<%= tooltips %>" onClick="IncrementLikes('<%=blog._id%>', '<%=user._id%>')" return false><i class="fa fa-thumbs-o-up margin-r-5"></i> Like (<span id="likes"><%=blog.likes.length%></span>)</a></li>
+              <%})%>
 
-            <li class="pull-right">
-              <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Comments
+                <li class="pull-right">
+                  <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Comments
               (<%= blog.comments.length %>)</a></li>
-    </ul>
+          </ul>
 
-    <!-- <input class="form-control input-sm" type="text" placeholder="Type a comment"> -->
+          <!-- <input class="form-control input-sm" type="text" placeholder="Type a comment"> -->
+        </div>
+      </div>
+    </div>
+    <%})%>
+</div>
 
-  </div>
+<script>
+  function IncrementLikes(blogID, userID) {
+    if (!document.getElementById('likedBtn').classList.contains('liked')) {
+      DoAjax({
+        id: userID
+      }, `/blog/like/${blogID}?_method=PUT`, (result) => {
 
-  <%})%>
+        document.getElementById('likedBtn').classList.add('liked')
+        $("#likes").text(parseInt(result.likes.length) + 1)
+      })
+    }
+  }
 
-    <script>
-      function IncrementLikes(blogID, userID) {
-        DoAjax({
-          id: userID
-        }, `/blog/like/${blogID}?_method=PUT`, (result) => {
-
-
-          $("#likes").text(parseInt(result.likes.length) + 1)
-        })
-      }
-
-      function DecrementLikes(blogID, userID) {
-        DoAjax({
-          id: userID
-        }, `/blog/delete/like/${blogID}?_method=DELETE`, (result) => {
+  function DecrementLikes(blogID, userID) {
+    DoAjax({
+      id: userID
+    }, `/blog/delete/like/${blogID}?_method=DELETE`, (result) => {
 
 
-          $("#likes").text(parseInt(result.likes.length))
-        })
-      }
-    </script>
+      $("#likes").text(parseInt(result.likes.length))
+    })
+  }
+</script>

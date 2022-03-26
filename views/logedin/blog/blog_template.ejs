@@ -1,0 +1,177 @@
+<div class="row">
+  <% blogs.forEach(blog=>{%>
+    <div class="col-md-12">
+      <div class="box skin-red box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">
+            <%= blog.title%>
+          </h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+          </div>
+          <!-- /.box-tools -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="blog-posts">
+            <div class="post">
+              <div class="user-block">
+                <img class="img-circle img-bordered-sm" src="<%= blog.author.image %>" alt="user image">
+
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><%= blog.author.displayName %>
+                    <span class="fa fa-caret-down"></span></button>
+                  <ul class="dropdown-menu">
+                    <li><a href="/profile/<%=blog.author._id %>">View Profile</a></li>
+
+                    <% FollowLink(blog.author, user, (link)=>{%>
+                      <%-link%>
+                        <%})%>
+
+                          <li><a href="#">Send Message</a></li>
+                          <li class="divider"></li>
+                          <li><a href="#">Separated link</a></li>
+                  </ul>
+                </div>
+
+                <% if(blog.author._id == user._id){%>
+                  <form action="/blog/<%=blog._id%>?_method=DELETE" method="post" id="delete">
+                    <a href="javascript:{}" class="pull-right btn-box-tool" onclick="document.getElementById('delete').submit()" title="Delete" return false><i class="fa fa-times""></i></a>
+                  </form>
+                  <a href="/blog/edit/<%=blog._id%>" class="pull-right btn-box-tool" title="Edit"><i class="fa fa-edit"></i></a>
+                  <%}%>
+                    </span>
+                    <span class="description">Shared <%= blog.status %>ly - <%- dateFormat(blog.date, 'MMMM Do YYYY h:mm:ss a') %></span>
+              </div>
+              <!-- /.user-block -->
+              <p>
+                <%- blog.blog %>
+              </p>
+              <ul class="list-inline">
+                <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
+                <% hasLiked(blog.likes, user.displayName, (Liked, tooltips)=>{%>
+                  <li><a href="javascript:{}" id="likedBtn" class="liked-link link-black text-sm <%- Liked===true ? 'liked' : '' %>" title="<%= tooltips %>" blogID="<%=blog._id%>" userID='<%=user._id%>' return false><i class="fa fa-thumbs-o-up margin-r-5"></i> Like (<span id="likes-<%=blog._id%>"><%=blog.likes.length%></span>)</a></li>
+                  <%}) %>
+                    <li class="pull-right">
+                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Comments
+                  (<%= blog.comments.length %>)</a>
+                    </li>
+              </ul>
+
+              <!-- <input class="form-control input-sm" type="text" placeholder="Type a comment"> -->
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer box-comments">
+
+          <% blog.comments.forEach(comment=>{%>
+            <div class="box-comment" id="<%=blog._id%>">
+              <!-- User image -->
+              <img class="img-circle img-sm" src="<%= comment.author.image %>" alt="User Image">
+
+              <div class="comment-text">
+                <span class="username">
+                  <%= comment.author.displayName %>
+              
+
+              <span class="text-muted pull-right"><%- dateFormat(comment.date, 'MMMM Do YYYY h:mm:ss a') %></span>
+                </span>
+                <!-- /.username -->
+                <%= comment.comment %>
+              </div>
+              <!-- /.comment-text -->
+            </div>
+            <!-- /.box-comment -->
+
+            <%})%>
+              <div class="box-footer">
+
+                <form action="/blog/comment/<%=blog._id %>" class="commentForm" method="post">
+                  <input type="hidden" name="blogID" value="<%=blog._id%>">
+                  <input type="hidden" name="img" value="<%= user.image%>">
+                  <input type="hidden" name="authorName" value="<%=user.displayName%>">
+                  <img class="img-responsive img-circle img-sm" src="<%=user.image %>" alt="Alt Text">
+                  <!-- .img-push is used to add margin to elements next to floating images -->
+                  <div class="img-push">
+                    <input type="text" id="comment" autocomplete="off" name="comment" class="form-control input-sm" placeholder="Press enter to post comment">
+                    <input type="hidden" id="author" name="author" value="<%=user._id %>">
+
+                  </div>
+                </form>
+              </div>
+              <!-- /.box-footer -->
+        </div>
+        <!-- /.box-footer -->
+
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+    <%})%>
+</div>
+<script>
+  const forms = document.querySelectorAll('.commentForm')
+
+  forms.forEach(form => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let formData = new FormData(e.target);
+      let blogID = formData.get('blogID')
+      formData.delete('blogID')
+      let data = {
+        comment: formData.get('comment'),
+        author: formData.get('author')
+      }
+      DoAjax(data, e.target.action, (result) => {
+        document.location.reload(true)
+      });
+    });
+  });
+
+
+
+
+  let likedBtn = document.querySelectorAll('.liked-link')
+  likedBtn.forEach(likedClick => {
+    likedClick.addEventListener('click', (e) => {
+
+      let blogID = e.target.attributes.blogID.value
+      let userID = e.target.attributes.userID.value
+
+      let action = ''
+      if (!e.target.classList.contains('liked')) {
+        action = `/blog/like/${blogID}?_method=PUT`
+
+      } else {
+
+        action = `/blog/like/${blogID}?_method=DELETE`
+      }
+      DoAjax({
+        id: userID
+      }, action, (result) => {
+
+        if (!e.target.classList.contains('liked')) {
+          $("#likes-" + blogID).text(parseInt(result.likes.length) + 1)
+          e.target.classList.add('liked')
+        } else {
+          $("#likes-" + blogID).text(parseInt(result.likes.length) - 1)
+          e.target.classList.remove('liked')
+
+        }
+      })
+    })
+  })
+
+  function DecrementLikes(blogID, userID) {
+    DoAjax({
+      id: userID
+    }, `/blog/delete/like/${blogID}?_method=DELETE`, (result) => {
+
+
+      $("#likes").text(parseInt(result.likes.length))
+    })
+  }
+</script>

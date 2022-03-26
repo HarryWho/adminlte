@@ -19,7 +19,7 @@ router.get('/dashboard', ensureAuth, async(req, res) => {
         path: 'likedBy',
         model: 'User'
       }
-    }])
+    }]).sort({ date: 'desc' })
     // console.log(blogs[0].likes[0].likedBy.displayName)
   res.render('logedin/dashboard', { title: 'Dashboard', user: req.user, pathname: ['home', 'dashboard'], blogs: blogs })
 })

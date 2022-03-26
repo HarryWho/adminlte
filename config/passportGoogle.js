@@ -40,7 +40,13 @@ passport.use(new GoogleStrategy({
 
 
 
-    }).populate('settings');
+    }).populate({
+        path: 'settings'
+      }, {
+        path: 'profile'
+      }
+
+    );
   }
 ));
 

@@ -12,9 +12,18 @@ const ProfileSchema = new mongoose.Schema({
   },
   location: String,
   occupation: String,
-  followers: Number,
-  following: Number,
-  friends: Number
+  followers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  followees: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  friends: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'User'
+  }
 
 });
 

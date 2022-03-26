@@ -6,7 +6,7 @@
     <div class="nav-tabs-custom">
       <ul class="nav nav-tabs">
         <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
-        <li><a href="#timeline" data-toggle="tab">Timeline</a></li>
+        <li><a href="#expence" data-toggle="tab">Expense Tracker</a></li>
         <li><a href="#settings" data-toggle="tab">Settings</a></li>
       </ul>
       <div class="tab-content">
@@ -20,7 +20,8 @@
           </div>
         </div>
         <!-- /.tab-pane -->
-        <div class="tab-pane" id="timeline">
+        <div class="tab-pane" id="expence">
+          <%- include('expence/expence_tracker.ejs') %>
 
         </div>
         <!-- /.tab-pane -->
@@ -34,72 +35,74 @@
     </div>
     <!-- /.col -->
   </div>
+
   <!-- /.row -->
-  <div class="modal" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+</div>
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Default Modal</h4>
-        </div>
-        <div class="modal-body">
-          <p>Whats on your mind?&hellip;</p>
-          <textarea class="form-control" style="border-radius:5px;" rows="6" cols="60" name="m_blogArea" id="m_blogArea" placeholder="Whats on your mind?"></textarea>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="saveBlog">Save changes</button>
-        </div>
+        <h4 class="modal-title">Default Modal</h4>
       </div>
-      <!-- /.modal-content -->
+      <div class="modal-body">
+        <p>Whats on your mind?&hellip;</p>
+        <textarea class="form-control" style="border-radius:5px;" rows="6" cols="60" name="m_blogArea" id="m_blogArea" placeholder="Whats on your mind?"></textarea>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="saveBlog">Save changes</button>
+      </div>
     </div>
-    <!-- /.modal-dialog -->
+    <!-- /.modal-content -->
   </div>
-  <!-- /.modal -->
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
-  <script>
-    const txtBlogArea = document.getElementById('blogArea').parentElement
+<script>
+  const txtBlogArea = document.getElementById('blogArea').parentElement
 
 
-    txtBlogArea.addEventListener('mousedown', e => {
-      $("#myModal").modal('show')
+  txtBlogArea.addEventListener('mousedown', e => {
+    $("#myModal").modal('show')
+  })
+
+  $('#saveBlog').on('click', async function() {
+
+    const data = {
+      blog: $('#m_blogArea').val()
+    }
+
+    const result = await DoAjax(data, '/blog', (result) => {
+
+      alert('Returned Result: ' + result)
     })
 
-    $('#saveBlog').on('click', async function() {
+    $('#m_blogArea').val('')
+    $('#myModal').modal('hide')
+      // $.ajax({
+      //   method: "POST",
+      //   url: action,
+      //   data: data,
+      //   success: function(result) {
+      //     if (result == 'Successfully Saved') {
+      //       $("#saveSkin").html("Saved!!")
+      //         .fadeOut("slow", function() {});
+      //       $("#msg").html(result).fadeToggle('slow', function() {
+      //         $("#msg").html(result)
+      //           .fadeOut('slow', function() {});
+      //       });
+      //     } else {
+      //       $("#msg").html('').fadeToggle('fast', function() {
+      //         $("#msg").html(result)
+      //           .fadeOut('slow', function() {});
+      //       });
 
-      const data = {
-        blog: $('#m_blogArea').val()
-      }
-
-      const result = await DoAjax(data, '/blog', (result) => {
-
-        alert('Returned Result: ' + result)
-      })
-
-      $('#m_blogArea').val('')
-      $('#myModal').modal('hide')
-        // $.ajax({
-        //   method: "POST",
-        //   url: action,
-        //   data: data,
-        //   success: function(result) {
-        //     if (result == 'Successfully Saved') {
-        //       $("#saveSkin").html("Saved!!")
-        //         .fadeOut("slow", function() {});
-        //       $("#msg").html(result).fadeToggle('slow', function() {
-        //         $("#msg").html(result)
-        //           .fadeOut('slow', function() {});
-        //       });
-        //     } else {
-        //       $("#msg").html('').fadeToggle('fast', function() {
-        //         $("#msg").html(result)
-        //           .fadeOut('slow', function() {});
-        //       });
-
-      //     }
-      //   }
-      // });
-    });
-  </script>
+    //     }
+    //   }
+    // });
+  });
+</script>

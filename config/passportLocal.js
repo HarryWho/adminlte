@@ -15,7 +15,13 @@ passport.use(new LocalStrategy({ usernameField: 'email' },
         return done(null, user);
       });
 
-    }).populate('settings');
+    }).populate([{
+      path: 'settings'
+    }, {
+      path: 'profile'
+    }, {
+      path: 'notifications'
+    }]);
   }
 ));
 

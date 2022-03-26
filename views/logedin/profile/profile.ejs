@@ -18,19 +18,19 @@
           <li class="list-group-item">
             <b>Followers</b>
             <a class="pull-right">
-              <%- typeof profile.profile!='undefined' ? profile.profile.followers : '' %>
+              <%- typeof profile.profile!='undefined' ? profile.profile.followers.length : '' %>
             </a>
           </li>
           <li class="list-group-item">
             <b>Following</b>
             <a class="pull-right">
-              <%- typeof profile.profile!='undefined' ? profile.profile.following : '' %>
+              <%- typeof profile.profile!='undefined' ? profile.profile.followees.length : '' %>
             </a>
           </li>
           <li class="list-group-item">
             <b>Friends</b>
             <a class="pull-right">
-              <%- typeof profile.profile!='undefined' ? profile.profile.friends : '' %>
+              <%- typeof profile.profile!='undefined' ? profile.profile.friends.length : '' %>
             </a>
           </li>
         </ul>

@@ -37,11 +37,14 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-const { dateFormat, hasLiked } = require('./middleware/formats')
+const { dateFormat, hasLiked, truncate } = require('./middleware/formats')
+const { FollowLink } = require('./middleware/DBFunctions')
   // various formats
 app.use((req, res, next) => {
   res.locals.dateFormat = dateFormat
   res.locals.hasLiked = hasLiked
+  res.locals.truncate = truncate
+  res.locals.FollowLink = FollowLink
 
   next()
 })
@@ -55,6 +58,7 @@ app.use('/auth', ensureGuest, require('./controller/login/auth'))
 app.use('/settings', ensureAuth, require('./controller/home/save'))
 app.use('/profile', ensureAuth, require('./controller/profile/profile'))
 app.use('/blog', ensureAuth, require('./controller/blog/blog'))
+app.use('/follow', ensureAuth, require('./controller/follow/follow'))
 
 // connect to MongoDB
 ConnectDB();
