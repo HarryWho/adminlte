@@ -26,8 +26,8 @@
                   <ul class="dropdown-menu">
                     <li><a href="/profile/<%=blog.author._id %>">View Profile</a></li>
 
-                    <% FollowLink(blog.author, user, (link)=>{%>
-                      <%-link%>
+                    <% FollowLink(blog.author, user, (link) =>{%>
+                      <%- link %>
                         <%})%>
 
                           <li><a href="#">Send Message</a></li>

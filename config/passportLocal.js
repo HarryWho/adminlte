@@ -19,8 +19,6 @@ passport.use(new LocalStrategy({ usernameField: 'email' },
       path: 'settings'
     }, {
       path: 'profile'
-    }, {
-      path: 'notifications'
     }]);
   }
 ));

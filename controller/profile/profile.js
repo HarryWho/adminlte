@@ -2,13 +2,14 @@ const express = require('express')
 const router = express.Router();
 const User = require('../../model/UserModel')
 const Profile = require('../../model/ProfileModel')
-const { GetSelectedUserAndPopulateProfile } = require('../../middleware/DBFunctions')
-router.get('/new', (req, res) => {
+const { UsersNotifications } = require('../../middleware/DBFunctions')
+router.get('/new', async(req, res) => {
   res.render('logedin/profile/profile_form', {
     title: 'Update User profile',
     user: req.user,
     pathname: ['home', 'update profile'],
-    action: '/profile'
+    action: '/profile',
+    notifications: await UsersNotifications(req.user._id)
   })
 })
 
@@ -19,7 +20,8 @@ router.get('/:userID', async(req, res) => {
     title: 'User Profile',
     user: req.user,
     pathname: ['home', 'profile'],
-    profile: userprofile
+    profile: userprofile,
+    notifications: await UsersNotifications(req.user._id)
   })
 })
 
@@ -31,7 +33,8 @@ router.get('/edit/:userID', async(req, res) => {
     user: req.user,
     profile: profile,
     title: 'Edit Profile',
-    action: `/profile/${req.user.profile}?_method=PUT`
+    action: `/profile/${req.user.profile}?_method=PUT`,
+    notifications: await UsersNotifications(req.user._id)
   })
 })
 

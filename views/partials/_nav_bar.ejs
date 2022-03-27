@@ -58,16 +58,17 @@
           <!-- Menu toggle button -->
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-bell-o"></i>
-            <span class="label label-warning"><%= typeof user.notifications!='undefined'?user.notifications.length:''%></span>
+            <span class="label label-warning"><%= typeof notifications!='undefined'?notifications.length:''%></span>
           </a>
           <ul class="dropdown-menu">
             <li class="header">You have
-              <%=typeof user.notifications!='undefined'?user.notifications.length:'0'%> notifications</li>
+              <%=typeof notifications!='undefined'? notifications.length:'0'%> notifications</li>
             <li>
               <!-- Inner Menu: contains the notifications -->
               <ul class="menu">
-                <%if(typeof user.notifications!='undefined'){%>
-                  <% user.notifications.forEach(note=>{%>
+                <%if(typeof notifications!='undefined'){%>
+
+                  <% notifications.forEach(note=>{%>
                     <li>
                       <a href="#">
                         <i class="fa fa-users text-aqua"></i>
@@ -76,6 +77,7 @@
                     </li>
                     <%})%>
                       <%}%>
+
               </ul>
             </li>
             <li class="footer"><a href="#">View all</a></li>

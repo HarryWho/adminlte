@@ -38,13 +38,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const { dateFormat, hasLiked, truncate } = require('./middleware/formats')
-const { FollowLink } = require('./middleware/DBFunctions')
+const { FollowLink, FollowButton, UsersNotifications } = require('./middleware/DBFunctions')
   // various formats
 app.use((req, res, next) => {
   res.locals.dateFormat = dateFormat
   res.locals.hasLiked = hasLiked
   res.locals.truncate = truncate
   res.locals.FollowLink = FollowLink
+  res.locals.FollowButton = FollowButton
+  res.locals.UsersNotifications = UsersNotifications
 
   next()
 })

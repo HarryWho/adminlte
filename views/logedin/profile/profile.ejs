@@ -34,9 +34,12 @@
             </a>
           </li>
         </ul>
-        <% if(typeof user.profile!='undefined' && user.profile!=profile.profile._id){%>
-          <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
-          <%}%>
+        <% if(typeof user.profile!='undefined' && user.profile._id.toString()!=profile.profile._id.toString()){%>
+          <% FollowButton(profile, user, (button)=>{%>
+            <%-button%>
+              <%})%>
+
+                <%}%>
       </div>
       <!-- /.box-body -->
     </div>

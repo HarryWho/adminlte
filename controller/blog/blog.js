@@ -4,6 +4,7 @@ const Blog = require('../../model/BlogModel')
 const Like = require('../../model/LikeModel')
 const Comment = require('../../model/CommentModel')
 const { commentElement } = require('../../middleware/comment')
+const { UsersNotifications } = require('../../middleware/DBFunctions')
 router.get('/', async(req, res) => {
   try {
     const blogs = await Blog.find({ status: 'public' }).populate([{
@@ -28,7 +29,8 @@ router.get('/', async(req, res) => {
       pathname: ['home', 'blog'],
       user: req.user,
       title: 'Site Blogs',
-      blogs: blogs
+      blogs: blogs,
+      notifications: await UsersNotifications(req.user._id)
     });
   } catch (error) {
     console.log(error)

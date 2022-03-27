@@ -39,6 +39,7 @@ router.get('/:userID', async(req, res) => {
 
 router.get('/unfollow/:userID', async(req, res) => {
   const idToFollow = await User.findOne({ profile: req.params.userID })
+  console.log(idToFollow)
   await Profile.findByIdAndUpdate(req.user.profile._id, { $pull: { followees: idToFollow._id } });
   await Profile.findByIdAndUpdate(idToFollow.profile._id, { $pull: { followers: req.user._id } });
 
