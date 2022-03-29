@@ -55,6 +55,7 @@ router.post('/local',
   function(req, res) {
 
     res.redirect('/dashboard');
+
   });
 
 module.exports = router

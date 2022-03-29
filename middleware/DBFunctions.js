@@ -1,21 +1,15 @@
 const Profile = require('../model/ProfileModel')
 const User = require('../model/UserModel')
+const ExpenseTracker = require('../model/ExpenseTrackerModel')
 module.exports = {
   FollowLink: function(author, webUser, done) {
-
     let link = ''
       //   // return new Promise((resolve, reject) => {
     selfUser(webUser)
-      .then(() => {
-
-      })
-
-
+      .then(() => {})
     link = `<li><a href="/follow/${author.profile._id}">Follow</a></li>`;
     if (author._id.toString() != webUser._id.toString()) {
-
       webUser.profile.followees.forEach(user => {
-
         if (user.toString() == author._id.toString()) {
           link = `<li><a href="/follow/unfollow/${author.profile._id}">Unfollow</a></li>`;
         }
@@ -23,15 +17,7 @@ module.exports = {
     } else {
       link = ''
     }
-
     return done(link)
-
-    // let me = {}
-    // User.findById(uprofile._id, (err, selfUser) => {}).clone().then((selfUser, err) => {
-    //   me = Profile.findById(selfUser.profile._id, (err, self) => {}).clone().then((self) => {})
-    // });
-
-
   },
   FollowButton: function(author, webUser, done) {
     let button = `<a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>`
@@ -42,8 +28,6 @@ module.exports = {
     })
     done(button)
   },
-
-
   UsersNotifications: function(webUserId) {
     return new Promise((resolve, reject) => {
       selfUserNotifications(webUserId).then(webUser => {
@@ -51,8 +35,13 @@ module.exports = {
 
       })
     })
+  },
+  ExpenceTrackerData: function(webUser) {
+
   }
 }
+
+
 const selfUser = (webUser) => {
   return new Promise((resolve, reject) => {
     User.findById(webUser._id, (err, user) => {

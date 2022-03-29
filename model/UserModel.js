@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    default: '/dist/img/avatar.png'
+    default: '/dist/img/gender_neutral_user.png'
   },
   password: {
     type: String

@@ -31,8 +31,8 @@
       <!-- Optionally, you can add icons to the links -->
       <!-- <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li> -->
       <% if(typeof user!='undefined'){%>
-        <li class="<%- pathname[1]=='blog'? 'active' : ''%>"><a href="/blog"><i class="fa fa-book"></i> <span>Blog</span></a></li>
         <li class="<%- pathname[1]=='dashboard'? 'active' : ''%>"><a href="/"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li class="<%- pathname[1]=='blog'? 'active' : ''%>"><a href="/blog"><i class="fa fa-book"></i> <span>Blog</span></a></li>
         <li class="treeview <%- pathname[1]=='profile'||pathname[1]=='edit profile' ? 'active' : ''%>">
           <a href="#"><i class="fa fa-user-md"></i> <span>Profile</span>
               <span class="pull-right-container">
@@ -48,6 +48,16 @@
                 <%}%>
           </ul>
         </li>
+
+        <li class="header">ONLINE USERS</li>
+
+        <div class="pull-left" id="user-list">
+          <ul class="sidebar-menu">
+
+          </ul>
+
+        </div>
         <%}%>
+
     </ul>
     <!-- /.sidebar-menu -->

@@ -54,7 +54,7 @@ desired effect
 |---------------------------------------------------------|
 -->
 
-<body class="hold-transition sidebar-mini <%- typeof user!='undefined'&&typeof user.settings!='undefined' ? `${user.settings.skin}`: 'skin-blue' %> <%- typeof user!='undefined'&&typeof user.settings!='undefined' ? `${user.settings.layout}`: '' %> <%- typeof user!='undefined'&&typeof user.settings!='undefined' ? `${user.settings.collapse}`: '' %> <%- typeof user!='undefined'&&typeof user.settings!='undefined' ? `${user.settings.expand_on_hover}`: '' %> <%- typeof user!='undefined'&&typeof user.settings!='undefined' ? `${user.settings.toggle_right}`: '' %>">
+<body class="hold-transition sidebar-mini<%- typeof user!='undefined'&&typeof user.settings!='undefined' ? ` ${user.settings.skin}`: ' skin-blue' %><%- typeof user!='undefined'&&typeof user.settings.layout!='undefined' ? ` ${user.settings.layout}`: '' %><%- typeof user!='undefined'&&typeof user.settings.collapse!='undefined' ? ` ${user.settings.collapse}`: '' %><%- typeof user!='undefined'&&typeof user.settings.expand_on_hover!='undefined' ? ` ${user.settings.expand_on_hover}`: '' %><%- typeof user!='undefined'&&typeof user.settings!='undefined' ? ` ${user.settings.toggle_right}`: '' %>">
   <div class="wrapper">
 
     <!-- Main Header -->
@@ -135,13 +135,35 @@ desired effect
   <script src="/bootstrap/js/bootstrap.min.js"></script>
   <!-- AdminLTE App -->
   <script src="/dist/js/app.min.js"></script>
+  <!-- Socket IO -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js" integrity="sha512-MgkNs0gNdrnOM7k+0L+wgiRc5aLgl74sJQKbIWegVIMvVGPc1+gc1L2oK9Wf/D9pq58eqIJAxOonYPVE5UwUFA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <% if(typeof user!='undefined'){%>
+    <script src="/dist/js/socket.io.js"></script>
+    <script>
+      $(document).ready(() => {
+        GetUserList()
+      })
+    </script>
+    <%}%>
+      <%- script %>
 
-  <%- script %>
-
-    <!-- Optionally, you can add Slimscroll and FastClick plugins.
+        <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the
      fixed layout. -->
+        <!-- <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+          <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <img src="..." class="rounded me-2" alt="...">
+              <strong class="me-auto">Bootstrap</strong>
+              <small>11 mins ago</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              Hello, world! This is a toast message.
+            </div>
+          </div>
+        </div> -->
 </body>
 
 </html>
